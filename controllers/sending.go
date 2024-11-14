@@ -22,11 +22,18 @@ func HandleSendEmail(c echo.Context) error {
 	}
 
 	// Generate PDF from HTML attachment content.
-	attachmentPath, err := middleware.GeneratePDF(payload.Attachment)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to generate PDF"})
+	var attachmentPath string
+	if payload.Attachment != "" {
+		attachmentPath, err := middleware.GeneratePDF(payload.Attachment)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to generate PDF"})
+		}
+		defer os.Remove(attachmentPath) // to remove file after sending email success
 	}
-	defer os.Remove(attachmentPath) // to remove file after sending email success
+
+	if payload.Attachment == "" {
+		attachmentPath = ""
+	}
 
 	// Send the email with HTML content and PDF attachment.
 	if err := middleware.SendEmail(payload.Subject, payload.Content, attachmentPath); err != nil {

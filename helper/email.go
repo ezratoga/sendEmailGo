@@ -12,9 +12,12 @@ func SendEmail(subject, htmlContent, attachmentPath string) error {
 	mailMiddleware := gomail.NewMessage()
 	mailMiddleware.SetHeader("From", globalconfig.GetEnvVariable("SMTP_EMAIL")) // define smtp email in env file
 	mailMiddleware.SetHeader("To", globalconfig.GetEnvVariable("EMAIL_RECEIVER")) // for testing you can set the receiver from env file
-	mailMiddleware.SetHeader("Subject", subject)
 	mailMiddleware.SetBody("text/html", htmlContent)
-	mailMiddleware.Attach(attachmentPath)
+	mailMiddleware.SetHeader("Subject", subject)
+
+	if attachmentPath != "" { // handle if any attachment
+		mailMiddleware.Attach(attachmentPath)
+	}
 
 	// convert string port from env to integer
 	port, err := strconv.Atoi(globalconfig.GetEnvVariable("SMTP_PORT")) // Convert string to integer
