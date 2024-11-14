@@ -43,5 +43,5 @@ $ go run main.go
 ```
 
 ### To Access the webpage
-After you run the backend service, you can open file wysiwig.html in this repository to accessing web page
+After you run the backend service, you can open file `wysiwig.html` in this repository to accessing web page
 
