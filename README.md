@@ -8,7 +8,7 @@ You can input you Subject, Email Content and Email Attachment
 - Go (Golang): Core backend language
 - Echo: Web framework for routing and middleware
 - HTML/CSS: CSS for styling and HTML for displaying the content of web page
-- Froala Text Editor: For editing and styling text into your email and attachment
+- Froala Text Editor: For editing and styling text into your email and attachment. You must be connected to the internet if you want to send email by webpage, so the Froala form can be shown in the web page
 - Javascript: To make web page more responsive and dynamic
 
 ### Environment Variables
@@ -35,7 +35,7 @@ Install dependencies:
 $ go mod download
 ```
 
-Set up the environment variables: Create a .env file in the root directory and add the required environment variables as listed above.
+Set up the environment variables: Create a .env file in the root directory and add the required environment variables as listed above. The port is hardcoded run at `8899`
 
 Run the application in your local cmd:
 ```shell
