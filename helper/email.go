@@ -14,10 +14,8 @@ func SendEmail(subject, htmlContent, attachmentPath string) error {
 	mailMiddleware.SetHeader("To", globalconfig.GetEnvVariable("EMAIL_RECEIVER")) // for testing you can set the receiver from env file
 	mailMiddleware.SetBody("text/html", htmlContent)
 	mailMiddleware.SetHeader("Subject", subject)
+	mailMiddleware.Attach(attachmentPath)
 
-	if attachmentPath != "" { // handle if any attachment
-		mailMiddleware.Attach(attachmentPath)
-	}
 
 	// convert string port from env to integer
 	port, err := strconv.Atoi(globalconfig.GetEnvVariable("SMTP_PORT")) // Convert string to integer
