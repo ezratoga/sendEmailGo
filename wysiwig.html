@@ -12,14 +12,29 @@
         <style>
             body {
                 font-family: Arial, sans-serif;
+                background-color: beige;
             }
             #content {
-                width: 50%;
+                padding-top: 1%;
+                width: fit-content;
                 height: fit-content;
             }
             #attachment {
-                width: 50%;
+                padding-top: 1%;
+                width: fit-content;
                 height: fit-content;
+            }
+            #addpadding {
+                border-radius: 20px;   
+                border: 2px solid #000;
+                position: relative;
+                top: 50px;
+                width: 50%;
+                margin: 0 auto;
+                padding-top: 30px;
+                padding-left: 20px;
+                padding-right: 20px;
+                background-color: #fff;
             }
             .add-button {
                 padding: 8px 20px;
@@ -29,62 +44,70 @@
                 border-radius: 5px;
                 cursor: pointer;
             }
+            .inputfield {
+                width: 100%;
+                max-width: 90.5%;
+            }
         </style>
     </head>
     <body>
-        <div>
-            <p>Subject:</p>
-            <input id="subject" type="text" placeholder="Enter email subject" class="input-field"> 
+        <div id="addpadding">
+            <div>
+                <label>Subject: </label>
+                <input id="subject" type="text" placeholder="Enter email subject" class="inputfield"> 
+                <br>
+            </div>
             <br>
-        </div>
-        <br>
-        <p>Content:</p>
-        <div id="content" > </div>
-        <script>
-          new FroalaEditor("div#content");
-        </script>
-        <br>
-        <p>Attachment:</p>
-        <div id="attachment" > </div>
-        <script>
-                new FroalaEditor("div#attachment");
-        </script> 
-        <br>
-        <br>
-        <script>
-          function generatePayload() {
-            const subject = document.getElementById('subject').value;
-            const content = new FroalaEditor('#content').html.get();
-            const attachment = new FroalaEditor('#attachment').html.get();
+            
+            <label>Content:</label>
+            <div id="content" > </div>
+            <script>
+              new FroalaEditor("div#content");
+            </script>
+            <br>
 
-            const payload = {
-              subject,
-              content,
-              attachment
-            };
-
-            // Send the payload to the REST API and handle the PDF stream response
-            fetch('http://localhost:8899/send-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(response => {
-              console.log('response', response)
-              if (response.status === 200) {
-                alert('Email sent successfully')
-              } else {
-                alert('Error send email')
+            <label>Attachment:</label>
+            <div id="attachment" > </div>
+            <script>
+                    new FroalaEditor("div#attachment");
+            </script> 
+            <br>
+            <br>
+            <script>
+              function generatePayload() {
+                const subject = document.getElementById('subject').value;
+                const content = new FroalaEditor('#content').html.get();
+                const attachment = new FroalaEditor('#attachment').html.get();
+    
+                const payload = {
+                  subject,
+                  content,
+                  attachment
+                };
+    
+                // Send the payload to the REST API and handle the PDF stream response
+                fetch('http://localhost:8899/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => {
+                  console.log('response', response)
+                  if (response.status === 200) {
+                    alert('Email sent successfully')
+                  } else {
+                    alert('Error send email')
+                  }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('There\'s issue with the server or network. Please try again later');
+                });
               }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('There\'s issue with the server or network. Please try again later');
-            });
-          }
-        </script>
-        <button class="add-button" onclick="generatePayload()">Click to send email</button>
+            </script>
+            <button class="add-button" onclick="generatePayload()">Click to send email</button>
+        </div>
     </body>
 </html>
