@@ -11,9 +11,11 @@ import (
 
 // handleSendEmail is the handler for the POST /send-email endpoint.
 func HandleSendEmail(c echo.Context) error {
+	// allocate memory for request payload
 	payload := new(models.EmailPayload)
 	fmt.Print(*payload)
 
+	// get and validate payload request
 	if err := c.Bind(payload); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid payload"})
 	}
