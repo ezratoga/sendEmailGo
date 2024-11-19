@@ -53,16 +53,16 @@
     <body>
         <div id="addpadding">
             <div>
-                <label>Subject: </label>
+                <label>Subject: </label> <!-- input email subject -->
                 <input id="subject" type="text" placeholder="Enter email subject" class="inputfield"> 
                 <br>
             </div>
             <br>
             
             <label>Content:</label>
-            <div id="content" > </div>
+            <div id="content" > </div> <!-- input email content -->
             <script>
-              new FroalaEditor("div#content");
+              new FroalaEditor("div#content"); // wysiwyg form editor from froala
             </script>
             <br>
 
@@ -74,10 +74,11 @@
             <br>
             <br>
             <script>
-              function generatePayload() {
-                const subject = document.getElementById('subject').value;
-                const content = new FroalaEditor('#content').html.get();
-                const attachment = new FroalaEditor('#attachment').html.get();
+            // function for send payload from input form, content form and attachment form to the backend system
+            function generatePayload() {
+                const subject = document.getElementById('subject').value; // for get the value of subject form
+                const content = new FroalaEditor('#content').html.get(); // for get the value of content form
+                const attachment = new FroalaEditor('#attachment').html.get(); // for get the value of attachement form
     
                 const payload = {
                   subject,
@@ -91,7 +92,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload) // send all payload as JSON
                 })
                 .then(response => {
                   console.log('response', response)
@@ -105,9 +106,9 @@
                     console.error('Error:', error);
                     alert('There\'s issue with the server or network. Please try again later');
                 });
-              }
+            }
             </script>
-            <button class="add-button" onclick="generatePayload()">Click to send email</button>
+            <button class="add-button" onclick="generatePayload()">Click to send email</button> <!-- button for sending payload-->
         </div>
     </body>
 </html>
